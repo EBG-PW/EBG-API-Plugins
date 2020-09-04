@@ -33,7 +33,7 @@ const router = express.Router();
 
 const schema = Joi.object({
 	name: Joi.string().trim().required(),
-	email: Joi.string().trim().required(),
+	email: Joi.string().email().required(),
 	category: Joi.number().required(),
 	person: Joi.number().required(),
 	message: Joi.string().trim().required(),
@@ -50,7 +50,7 @@ router.post('/', limiter, async (reg, res, next) => {
 		}else{
 			var Mention = `<a href="tg://user?id=${PluginConfig.UserID[value.person]}"> </a>`
 		}
-		bot.sendMessage(`-251992918`, `Neue Kontaktanfrage von ${value.name}\nKategorie: ${PluginConfig.category[value.category]}\nAnfrage für ${PluginConfig.person[value.person]}\n${Mention}\n<b>Nachricht:</b>\n<pre language="c++">${value.message}</pre>`, { parseMode: 'html' , webPreview: false}).catch(error => console.log('Error: (Telegram Send Message)', error.description));
+		bot.sendMessage(`-251992918`, `Neue Kontaktanfrage von ${value.name}\nKategorie: ${PluginConfig.category[value.category]}\nAnfrage für ${PluginConfig.person[value.person]}\nAntwort an:${value.email}\n${Mention}\n<b>Nachricht:</b>\n<pre language="c++">${value.message}</pre>`, { parseMode: 'html' , webPreview: false}).catch(error => console.log('Error: (Telegram Send Message)', error.description));
 		res.json(value);
 	}catch (error) {
 		next(error);
