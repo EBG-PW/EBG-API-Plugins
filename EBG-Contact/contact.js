@@ -12,14 +12,14 @@ const bot = new Telebot({
 
 const PluginConfig = {
 	category: ["Help","Issue","Request","Other"],
-	person: ["All", "GodOfOwls","bolverblitz","geozukunft"],
+	person: ["All", "GodOfOwls","BolverBlitz","geozukunft"],
 	UserID: ["Place","357693014","206921999","181585055"]
 }
 
 /* Plugin info*/
 const PluginName = "EBG-contact";
 const PluginRequirements = [];
-const PluginVersion = "0.1.1";
+const PluginVersion = "0.1.2";
 const PluginAuthor = "BolverBlitz";
 const PluginDocs = "docs.ebg.pw";
 
@@ -50,7 +50,7 @@ router.post('/', limiter, async (reg, res, next) => {
 		}else{
 			var Mention = `<a href="tg://user?id=${PluginConfig.UserID[value.person]}"> </a>`
 		}
-		bot.sendMessage(`-251992918`, `Neue Kontaktanfrage von ${value.name}\nKategorie: ${PluginConfig.category[value.category]}\nAnfrage für ${PluginConfig.person[value.person]}\nAntwort an:${value.email}\n${Mention}\n<b>Nachricht:</b>\n<pre language="c++">${value.message}</pre>`, { parseMode: 'html' , webPreview: false}).catch(error => console.log('Error: (Telegram Send Message)', error.description));
+		bot.sendMessage(`-251992918`, `Neue Kontaktanfrage von ${value.name}\nKategorie: ${PluginConfig.category[value.category]}\nAnfrage für ${PluginConfig.person[value.person]}\nAntwort an: ${value.email}\n${Mention}\n<b>Nachricht:</b>\n<pre language="c++">${value.message}</pre>`, { parseMode: 'html' , webPreview: false}).catch(error => console.log('Error: (Telegram Send Message)', error.description));
 		res.json(value);
 	}catch (error) {
 		next(error);
