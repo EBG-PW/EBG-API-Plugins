@@ -12,7 +12,7 @@ const bot = new Telebot({
 
 const PluginConfig = {
 	category: ["Help","Issue","Request","Other"],
-	person: ["All", "GodOfOwls","BolverBlitz","Geozukunft"],
+	person: ["All", "GodOfOwls","bolverblitz","geozukunft"],
 	UserID: ["Place","357693014","206921999","181585055"]
 }
 
