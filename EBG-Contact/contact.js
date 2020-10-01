@@ -45,10 +45,10 @@ router.post('/', limiter, async (reg, res, next) => {
 		if(value.person === 0){
 			var Mention = "";
 			for (i = 1; i < PluginConfig.UserID.length; i++) {
-				Mention += `<a href="tg://user?id=${PluginConfig.UserID[i]}"> </a>`
+				Mention += `<a href="tg://user?id=${PluginConfig.UserID[i]}">​</a>`
 			}
 		}else{
-			var Mention = `<a href="tg://user?id=${PluginConfig.UserID[value.person]}"> </a>`
+			var Mention = `<a href="tg://user?id=${PluginConfig.UserID[value.person]}">​</a>`
 		}
 		bot.sendMessage(`-251992918`, `Neue Kontaktanfrage von ${value.name}\nKategorie: ${PluginConfig.category[value.category]}\nAnfrage für ${PluginConfig.person[value.person]}\nAntwort an: ${value.email}\n${Mention}\n<b>Nachricht:</b>\n<pre language="c++">${value.message}</pre>`, { parseMode: 'html' , webPreview: false}).catch(error => console.log('Error: (Telegram Send Message)', error.description));
 		res.json(value);
