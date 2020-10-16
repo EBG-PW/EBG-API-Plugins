@@ -83,7 +83,18 @@ router.get('/', limiter, async (reg, res, next) => {
 					Out
 				});
 		}else{
-			let Out = StatsJson
+			if(typeof(value.limit) === "undefined"){
+				var Number = StatsJson.length
+			}else{
+				var Number = value.limit
+			}
+			let SortArray = StatsJson.servers.slice(0, Number)
+
+			let Out = {
+				timespamp: StatsJson.updated,
+				servers: SortArray
+			}
+
 			res.status(200);
 				res.json({
 					Out
@@ -161,6 +172,12 @@ router.get('/now', limiter, async (reg, res, next) => {
 		res.json({
 			Out
 		});
+	}else{
+        console.log(`There is no stats.json`);
+        res.status(503);
+        res.json({
+          message: 'No stats file found... Check .env and ServerStatus application!'
+        });
 	}
 });
 
