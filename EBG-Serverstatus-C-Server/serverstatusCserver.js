@@ -15,7 +15,7 @@ const PluginDocs = "";
 
 const limiter = rateLimit({
 	windowMs: 60 * 1000, 
-	max: 6
+	max: 65
   });
 
 const router = express.Router();
