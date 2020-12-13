@@ -21,6 +21,12 @@ const limiter = rateLimit({
 
 //Global VAR
 var StatsJson;
+var StatsJsonCache;
+
+//Get First Structure
+request(`https://${process.env.ServerStatsURL}/api/v1/serverstatusCserver`, { json: true }, (err, res, body) => {
+	StatsJsonCache = body
+})
 
 const router = express.Router();
 
@@ -237,9 +243,20 @@ let ArrSorter = function ArrSorter (Array, String, Key, Number){
  */
 let getStats = function ArrSorter (url){
 	return new Promise(function(resolve, reject) {
-		request(url, { json: true }, (err, res, body) => {
-			resolve(body)
-		})
+		if(new Date().getTime() - StatsJsonCache.StatsJson.updated > 2000){
+			request(url, { json: true }, (err, res, body) => {
+				console.log(typeof body)
+				if(typeof body === "object"){
+					StatsJsonCache = body
+					resolve(body)
+				}else{
+					resolve(StatsJsonCache)
+				}
+			})
+		}else{
+			resolve(StatsJsonCache)
+		}
+		
 	});
 };
 
