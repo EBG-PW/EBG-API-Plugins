@@ -29,7 +29,8 @@ const GetSchema = Joi.object({
 });
 
 const GetSchemaNow = Joi.object({
-    all: Joi.boolean()
+    all: Joi.boolean(),
+	bundle: Joi.boolean()
 });
 
 router.get('/', limiter, async (reg, res, next) => {
@@ -119,17 +120,35 @@ router.get('/now', limiter, async (reg, res, next) => {
 		if(fs.existsSync(`${process.env.ServerStatsPath}`)) {
 			var StatsJson = JSON.parse(fs.readFileSync(`${process.env.ServerStatsPath}`));
 			let FilterdArray = [];
+			let FilterdArrayWCG = [];
 			let OnlineArray = [];
+			let OnlineArrayWCG = [];
 			let OfflineArray = [];
 			//Check if all clients or just Servers
 			if(value.all === true){
 				StatsJson.servers.map(ArrayPart => {
+					if(!value.bundle){
+						FilterdArray.push(ArrayPart)
+					}else{
+						if(ArrayPart.name.includes("WCG")){
+							FilterdArrayWCG.push(ArrayPart)
+						}else{
 							FilterdArray.push(ArrayPart)
+						}
+					}
 				});
 			}else{
 				StatsJson.servers.map(ArrayPart => {
 					if(ArrayPart.type !== "PC" && ArrayPart.type !== "Mobile"){
+						if(!value.bundle){
 							FilterdArray.push(ArrayPart)
+						}else{
+							if(ArrayPart.name.includes("WCG")){
+								FilterdArrayWCG.push(ArrayPart)
+							}else{
+								FilterdArray.push(ArrayPart)
+							}
+						}
 					}
 				});
 			}
@@ -141,6 +160,38 @@ router.get('/now', limiter, async (reg, res, next) => {
 					OfflineArray.push(ArrayPart)
 				}
 			});
+			FilterdArrayWCG.map(ArrayPart => {
+				if(ArrayPart.online4 === true || ArrayPart.online6 === true){
+					OnlineArrayWCG.push(ArrayPart)
+				}else{
+					OfflineArray.push(ArrayPart)
+				}
+			});
+			var avg = Array.from(OnlineArrayWCG.reduce(
+				(acc, obj) => Object.keys(obj).reduce( 
+					(acc, key) => typeof obj[key] == "number"
+						? acc.set(key, (acc.get(key) || []).concat(obj[key]))
+						: acc,
+				acc),
+			  new Map())).reduce( 
+				  (acc, [name, values]) =>
+					  Object.assign(acc, { [name]: values.reduce( (a,b) => a+b ) / values.length }),
+				  {}
+			  );
+			  for (const key in avg){
+				avg[key] = Number(avg[key].toFixed(0))
+			}
+			avg.name = "WCG Bundled";
+			avg.type = "WCG-Bundle";
+			avg.host = "Bundle";
+			avg.location = "Germany";
+			avg.online4 = true;
+			avg.online6 = true;
+			avg.uptime = "0";
+			avg.custom = ""
+			if(value.bundle){
+				OnlineArray.push(avg)
+			}
 			//Get all Stats
 			var cpu_used = 0, ram_total = 0, ram_used = 0, disk_total = 0, disk_used = 0, net_rx = 0, net_tx = 0
 			OnlineArray.map(ArrayPart => {
