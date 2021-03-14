@@ -189,6 +189,10 @@ router.get('/now', limiter, async (reg, res, next) => {
 			avg.online6 = true;
 			avg.uptime = "0";
 			avg.custom = ""
+			avg.memory_total = avg.memory_total*8
+			avg.memory_used = avg.memory_used*8
+			avg.hdd_total = avg.hdd_total*8
+			avg.hdd_used = avg.hdd_used*8
 			if(value.bundle){
 				OnlineArray.push(avg)
 			}
