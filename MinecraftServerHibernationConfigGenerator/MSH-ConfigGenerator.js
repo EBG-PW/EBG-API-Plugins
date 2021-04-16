@@ -5,6 +5,10 @@ const rateLimit = require("express-rate-limit");
 const Joi = require('joi');
 const fs = require("fs");
 let reqPath = path.join(__dirname, '../../');
+let ProtVersionNum;
+if(fs.existsSync(`${reqPath}/${process.env.MSHConfigPath}/Protocol_version_numbers.json`)) {
+	ProtVersionNum = JSON.parse(fs.readFileSync(`${reqPath}/${process.env.MSHConfigPath}/Protocol_version_numbers.json`));
+}
 
 const PluginConfig = {
 }
@@ -36,21 +40,36 @@ router.get('/2-3-3', limiter, async (reg, res, next) => {
 		const value = await GetSchema.validateAsync(reg.query);
 		console.log(value)
 		if(fs.existsSync(`${reqPath}/${process.env.MSHConfigPath}/2-3-3.json`)) {
-			var DefaultJson = JSON.parse(fs.readFileSync(`${reqPath}/${process.env.MSHConfigPath}/2-3-3.json`));
-			DefaultJson.Server.FileName = `${value.FileName}`
-			DefaultJson.Server.Version = `${value.ServerType} ${value.Version}`
-			DefaultJson.Commands.StartServer = `java -Xmx${value.RAM}M -Xms128M -jar serverFileName nogui`
-			DefaultJson.Msh.Port = `${value.Port}`
+			if(ProtVersionNum !== undefined){
+				console.log(ProtVersionNum)
+				let Protocol;
+				if(ProtVersionNum.Minecraft_prot[value.Version] === undefined){
+					Protocol = "Version is no official minecraft java release..."
+				}else{
+					Protocol = ProtVersionNum.Minecraft_prot[value.Version]
+				}
+				var DefaultJson = JSON.parse(fs.readFileSync(`${reqPath}/${process.env.MSHConfigPath}/2-3-3.json`));
+				DefaultJson.Server.FileName = `${value.FileName}`
+				DefaultJson.Server.Version = `${value.ServerType} ${value.Version}`
+				DefaultJson.Server.Protocol = `${Protocol}`
+				DefaultJson.Commands.StartServer = `java -Xmx${value.RAM}M -Xms128M -jar serverFileName nogui`
+				DefaultJson.Msh.Port = `${value.Port}`
 
 
-			res.status(200);
-			res.set({"Content-Disposition":"attachment; filename=\"config.json\""});
-			res.send(DefaultJson);
+				res.status(200);
+				res.set({"Content-Disposition":"attachment; filename=\"config.json\""});
+				res.send(DefaultJson);
+			}else{
+				res.status(500);
+				res.json({
+					message: 'Internal error: Protocol_version_numbers.json missing'
+				});
+			}
 		}else{
 			console.log(`There is no 2-3-3.json.`,`${process.env.MSHConfigPath}/2-3-3.json`);
-			res.status(503);
+			res.status(500);
 			res.json({
-			message: 'No template file found... Check .env!'
+				message: 'No template file found... Check .env!'
 			});
 		}
 	} catch (error) {
