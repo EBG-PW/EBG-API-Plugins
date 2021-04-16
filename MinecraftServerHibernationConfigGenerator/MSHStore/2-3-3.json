@@ -1,0 +1,21 @@
+{
+    "Server": {
+      "Folder": "./",
+      "FileName": "server.jar",
+      "Protocol": "754",
+      "Version": "Paper 1.16.5"
+    },
+    "Commands": {
+      "StartServer": "java -Xmx1024M -Xms1024M -jar serverFileName nogui",
+      "StopServer": "stop",
+      "StopServerForce": "stop"
+    },
+    "Msh": {
+      "CheckForUpdates": true,
+      "Debug": false,
+      "HibernationInfo": "                   \u0026fserver status:\n                   \u0026b\u0026lHIBERNATING",
+      "Port": "10021",
+      "StartingInfo": "                   \u0026fserver status:\n                    \u00266\u0026lWARMING UP",
+      "TimeBeforeStoppingEmptyServer": 60
+    }
+  }
