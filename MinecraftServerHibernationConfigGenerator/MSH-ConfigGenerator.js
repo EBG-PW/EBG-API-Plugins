@@ -34,7 +34,8 @@ const GetSchema = Joi.object({
 	ServerType: Joi.string().max(32).required().regex(/^[a-z\d\s\-\.\,\ä\ü\ö\ß\&]*$/i),
 	Version: Joi.string().max(16).required().regex(/^[0-9\-\.]*$/),
 	RAM: Joi.number().max(524288).required(),
-	Port: Joi.number().max(65535).required()
+	Port: Joi.number().max(65535).required(),
+	StopTime: Joi.number().max(86400).required()
 })
 
 const router = express.Router();
@@ -56,6 +57,7 @@ router.get('/2-3-3', limiter, async (reg, res, next) => {
 				DefaultJson.Server.Protocol = `${Protocol}`
 				DefaultJson.Commands.StartServer = `java -Xmx${value.RAM}M -Xms128M -jar serverFileName nogui`
 				DefaultJson.Msh.Port = `${value.Port}`
+				DefaultJson.Msh.TimeBeforeStoppingEmptyServer = value.StopTime
 
 
 				res.status(200);
