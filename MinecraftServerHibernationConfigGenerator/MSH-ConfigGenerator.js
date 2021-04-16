@@ -25,6 +25,10 @@ const limiter = rateLimit({
 	max: 265
 });
 
+function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
 const GetSchema = Joi.object({
 	FileName: Joi.string().max(128).required().regex(/^[a-z\d\s\-\.\,\ä\ü\ö\ß\&]*$/i),
 	ServerType: Joi.string().max(32).required().regex(/^[a-z\d\s\-\.\,\ä\ü\ö\ß\&]*$/i),
@@ -38,10 +42,8 @@ const router = express.Router();
 router.get('/2-3-3', limiter, async (reg, res, next) => {
 	try {
 		const value = await GetSchema.validateAsync(reg.query);
-		console.log(value)
 		if(fs.existsSync(`${reqPath}/${process.env.MSHConfigPath}/2-3-3.json`)) {
 			if(ProtVersionNum !== undefined){
-				console.log(ProtVersionNum)
 				let Protocol;
 				if(ProtVersionNum.Minecraft_prot[value.Version] === undefined){
 					Protocol = "Version is no official minecraft java release..."
@@ -50,7 +52,7 @@ router.get('/2-3-3', limiter, async (reg, res, next) => {
 				}
 				var DefaultJson = JSON.parse(fs.readFileSync(`${reqPath}/${process.env.MSHConfigPath}/2-3-3.json`));
 				DefaultJson.Server.FileName = `${value.FileName}`
-				DefaultJson.Server.Version = `${value.ServerType} ${value.Version}`
+				DefaultJson.Server.Version = `${capitalizeFirstLetter(value.ServerType)} ${value.Version}`
 				DefaultJson.Server.Protocol = `${Protocol}`
 				DefaultJson.Commands.StartServer = `java -Xmx${value.RAM}M -Xms128M -jar serverFileName nogui`
 				DefaultJson.Msh.Port = `${value.Port}`
