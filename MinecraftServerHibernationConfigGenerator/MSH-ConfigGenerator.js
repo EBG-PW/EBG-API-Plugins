@@ -18,7 +18,7 @@ const PluginName = "MSH-ConfigGenerator";
 const PluginRequirements = [];
 const PluginVersion = "0.0.1";
 const PluginAuthor = "BolverBlitz";
-const PluginDocs = "";
+const PluginDocs = "https://docs.ebg.pw/#msh-configgenerator";
 
 const limiter = rateLimit({
 	windowMs: 60 * 1000, 
