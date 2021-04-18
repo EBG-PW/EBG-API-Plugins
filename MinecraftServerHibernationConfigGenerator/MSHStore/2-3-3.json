@@ -12,7 +12,7 @@
     },
     "Msh": {
       "CheckForUpdates": true,
-      "Debug": false,
+      "Debug": true,
       "HibernationInfo": "                   \u0026fServer Status:\n                   \u0026b\u0026lHIBERNATING",
       "Port": "10021",
       "StartingInfo": "                   \u0026fServer Status:\n                    \u00266\u0026lWARMING UP",
