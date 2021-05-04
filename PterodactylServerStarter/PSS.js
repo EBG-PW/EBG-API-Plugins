@@ -92,8 +92,8 @@ router.get('/list', limiter, async (reg, res, next) => {
 							RAM: bytesToSize(memory_bytes, 2),
 							CPU: `${Math.round(cpu_absolute * 100) / 100}%`,
 							Disk: bytesToSize(disk_bytes, 2),
-							Net_Down: `${bytesToSize(network_rx_bytes, 2)}/s`,
-							Net_Up: `${bytesToSize(network_tx_bytes, 2)}/s`,
+							Net_Down: `${bytesToSize(network_rx_bytes, 2)}`,
+							Net_Up: `${bytesToSize(network_tx_bytes, 2)}`,
 							Actions: ActionsMethode(PrommiseArray[i].identifier, InArray[i].current_state)
 						});
 					}
