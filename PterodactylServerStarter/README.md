@@ -7,7 +7,7 @@ Clone [EBG API Base](https://github.com/EBG-PW/EBG-API-Base)
 Create a folder named data in the root directory of the API repo  
 Run `npm i`  
 Drop the PSS.js file in `/src/api` folder  
-Drop the PSSStore folder in `/data ` 
+Drop the PSSStore folder in `/data` 
 Open /`data/PSSStore/config.json` and set your API Key  
 
 Add in .env file:  
