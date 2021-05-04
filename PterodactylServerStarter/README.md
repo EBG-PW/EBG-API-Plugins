@@ -2,6 +2,9 @@
 Plugin to list all your servers of peterodactyl and start them if they don´t run.  
 Everyone on the Internet can start them, so be warned!  
 
+![grafik](https://user-images.githubusercontent.com/35345288/116951454-320a5600-ac88-11eb-9d8a-c30a26021fe0.png)
+
+
 ## Installation
 Clone [EBG API Base](https://github.com/EBG-PW/EBG-API-Base)  
 Create a folder named data in the root directory of the API repo  
