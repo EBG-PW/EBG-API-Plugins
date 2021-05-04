@@ -149,7 +149,7 @@ let count = initial;
 let counter; //10 will  run it every 100th of a second
 
 function InitTable () {
-    var posting = $.get("https://api.ebg.pw/api/v1/PSS/list");
+    var posting = $.get(`${window.location.href}/list`);
 		posting.done(function(data) {
             let TableObject = {
                 TableHeadData: ["Name", "Node", "CPU", "RAM", "Disk", "Net_Down", "Net_Up", "Actions"],
@@ -162,7 +162,7 @@ function InitTable () {
 		});
 }
 function StartServer(Server_identifier) {
-    var posting = $.post("https://api.ebg.pw/api/v1/PSS/start", {
+    var posting = $.post(`${window.location.href}/start`, {
 		ServerID: Server_identifier
 	});
 
