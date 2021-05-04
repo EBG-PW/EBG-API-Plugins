@@ -51,6 +51,25 @@ router.get('/', limiter, async (reg, res, next) => {
   	}
 });
 
+router.get('/reload', limiter, async (reg, res, next) => {
+	try {
+		if(fs.existsSync(`${reqPath}${process.env.PSSConfigPath}/config.json`)) {
+			Config = JSON.parse(fs.readFileSync(`${reqPath}/${process.env.PSSConfigPath}/config.json`));
+			res.status(200);
+			res.json({
+				message: 'Config has been reloaded!'
+			});
+		}else{
+			res.status(500);
+			res.json({
+				message: 'Config is missing or wasnt found. Please contact the administrator!'
+			});
+		}
+	} catch (error) {
+    	next(error);
+  	}
+});
+
 router.get('/list', limiter, async (reg, res, next) => {
 	try {
 		if(Config != null) {
@@ -69,7 +88,7 @@ router.get('/list', limiter, async (reg, res, next) => {
 						let { memory_bytes, cpu_absolute,  disk_bytes, network_rx_bytes, network_tx_bytes } = InArray[i].resources;
 						OutArray.push({
 							Name: PrommiseArray[i].Name,
-							Node: PrommiseArray[i].node.substring(3),
+							Node: PrommiseArray[i].node,
 							RAM: bytesToSize(memory_bytes, 2),
 							CPU: `${Math.round(cpu_absolute * 100) / 100}%`,
 							Disk: bytesToSize(disk_bytes, 2),
