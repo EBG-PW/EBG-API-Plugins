@@ -121,19 +121,26 @@ router.get('/list', limiter, async (reg, res, next) => {
 
 router.post('/start', limiter, async (reg, res, next) => {
 	try {
-		const value = await startSchema.validateAsync(reg.body);
-		nodeClient.startServer(value.ServerID).then(function(result) {
+		if(Config.Allow_Start === true){
+			const value = await startSchema.validateAsync(reg.body);
+			nodeClient.startServer(value.ServerID).then(function(result) {
+				res.status(200);
+				res.json({
+					message: 'Server wird gestartet...'
+				});
+			}).catch((error) => {
+				res.status(503);
+				res.json({
+					message: 'Not found.'
+				});
+				console.log(error);
+			});
+		}else{
 			res.status(200);
-			res.json({
-				message: 'Server wird gestartet...'
-			});
-		}).catch((error) => {
-			res.status(503);
-			res.json({
-				message: 'Not found.'
-			});
-			console.log(error);
-		});
+				res.json({
+					message: 'Disabled in config.'
+				});
+		}
 
 	} catch (error) {
     	next(error);
