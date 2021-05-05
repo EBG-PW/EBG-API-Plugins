@@ -4,6 +4,18 @@ Everyone on the Internet can start them, so be warned!
 
 ![grafik](https://user-images.githubusercontent.com/35345288/116951454-320a5600-ac88-11eb-9d8a-c30a26021fe0.png)
 
+## Config
+```json
+{
+    "Allow_Start": true,
+    "PanelURL": "https://cp.gameserver.gratis/",
+    "ClientToken": "Your Client API Key"
+}
+```
+  
+Allow_Start: Wehen set to false, you can´t start servers via the web interface.  
+PanelURL: URL to your pterodactyl panel  
+ClientToken: Pterodactyl client API key  
 
 ## Installation
 Clone [EBG API Base](https://github.com/EBG-PW/EBG-API-Base)  
