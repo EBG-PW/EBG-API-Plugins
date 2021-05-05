@@ -8,7 +8,6 @@ const node = require('nodeactyl-beta');
 const fs = require("fs");
 let reqPath = path.join(__dirname, '../../');
 let Config;
-console.log(`${reqPath}${process.env.PSSConfigPath}/config.json`)
 if(fs.existsSync(`${reqPath}${process.env.PSSConfigPath}/config.json`)) {
 	Config = JSON.parse(fs.readFileSync(`${reqPath}/${process.env.PSSConfigPath}/config.json`));
 }
