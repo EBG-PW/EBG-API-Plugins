@@ -11,7 +11,7 @@ let Config;
 if(fs.existsSync(`${reqPath}${process.env.PSSConfigPath}/config.json`)) {
 	Config = JSON.parse(fs.readFileSync(`${reqPath}/${process.env.PSSConfigPath}/config.json`));
 }
-const nodeClient = new  node.NodeactylClient(Config.PanelURL, Config.ClientToken);
+var nodeClient = new node.NodeactylClient(Config.PanelURL, Config.ClientToken);
 
 const PluginConfig = {
 }
@@ -54,6 +54,8 @@ router.get('/reload', limiter, async (reg, res, next) => {
 	try {
 		if(fs.existsSync(`${reqPath}${process.env.PSSConfigPath}/config.json`)) {
 			Config = JSON.parse(fs.readFileSync(`${reqPath}/${process.env.PSSConfigPath}/config.json`));
+			nodeClient = null;
+			nodeClient = new node.NodeactylClient(Config.PanelURL, Config.ClientToken);
 			res.status(200);
 			res.json({
 				message: 'Config has been reloaded!'
