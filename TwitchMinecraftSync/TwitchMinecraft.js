@@ -55,11 +55,7 @@ pool.query(`CREATE TABLE IF NOT EXISTS users (
 
 const limiter = rateLimit({
 	windowMs: 60 * 1000, 
-	max: 500
-});
-
-const startSchema = Joi.object({
-	ServerID: Joi.string().required().min(8).max(8).regex(/^[a-z\0-9]*$/i)
+	max: 50
 });
 
 const router = express.Router();
