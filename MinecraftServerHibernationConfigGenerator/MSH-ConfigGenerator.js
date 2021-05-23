@@ -35,7 +35,10 @@ const GetSchema233 = Joi.object({
 	Version: Joi.string().max(16).required().regex(/^[0-9\-\.]*$/),
 	RAM: Joi.number().max(524288).required(),
 	Port: Joi.number().max(65535).required(),
-	StopTime: Joi.number().max(86400).required()
+	StopTime: Joi.number().max(86400).required(),
+	HibernationInfo: Joi.string(),
+	StartingInfo: Joi.string()
+	
 })
 
 const GetSchema241 = Joi.object({
@@ -45,6 +48,8 @@ const GetSchema241 = Joi.object({
 	RAM: Joi.number().max(524288).required(),
 	Port: Joi.number().max(65535).required(),
 	StopTime: Joi.number().max(86400).required(),
+	HibernationInfo: Joi.string(),
+	StartingInfo: Joi.string(),
 	StopServerAllowKill: Joi.number().max(86400).required()
 })
 
@@ -77,6 +82,12 @@ router.get('/2-3-3', limiter, async (reg, res, next) => {
 				DefaultJson.Server.Protocol = `${Protocol}`
 				DefaultJson.Commands.StartServer = `java -Xmx${value.RAM}M -Xms128M -jar serverFileName nogui`
 				DefaultJson.Msh.Port = `${value.Port}`
+				if(typeof value.HibernationInfo !== 'undefined'){
+					DefaultJson.Msh.HibernationInfo = `${value.HibernationInfo}`
+				}
+				if(typeof value.StartingInfo !== 'undefined'){
+					DefaultJson.Msh.StartingInfo = `${value.StartingInfo}`
+				}
 				DefaultJson.Msh.TimeBeforeStoppingEmptyServer = value.StopTime
 
 
@@ -119,6 +130,12 @@ router.get('/2-4-1', limiter, async (reg, res, next) => {
 				DefaultJson.Commands.StartServer = `java -Xmx${value.RAM}M -Xms128M -jar serverFileName nogui`
 				DefaultJson.Commands.StopServerAllowKill = value.StopServerAllowKill
 				DefaultJson.Msh.Port = `${value.Port}`
+				if(typeof value.HibernationInfo !== 'undefined'){
+					DefaultJson.Msh.HibernationInfo = `${value.HibernationInfo}`
+				}
+				if(typeof value.StartingInfo !== 'undefined'){
+					DefaultJson.Msh.StartingInfo = `${value.StartingInfo}`
+				}
 				DefaultJson.Msh.TimeBeforeStoppingEmptyServer = value.StopTime
 
 
