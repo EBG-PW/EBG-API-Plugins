@@ -145,7 +145,7 @@ client.on('message', (channel, tags, message, self) => {
 	if(messageArray[0].toLowerCase() === `${Config.syntax}setmcrank`) {
 		if(messageArray.length !== 3){
 			client.say(channel, `Error: No username & Rank.`);
-			client.say(channel, `Use ${Config.syntax}mclink <Twitch Username> <Rank>`);
+			client.say(channel, `Use ${Config.syntax}setmcrank <Twitch Username> <Rank>`);
 		}else{
 			let T_name = messageArray[1].toLocaleLowerCase();
 			let rank = messageArray[2].toLocaleLowerCase();
