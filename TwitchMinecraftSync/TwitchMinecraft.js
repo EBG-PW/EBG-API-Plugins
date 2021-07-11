@@ -134,7 +134,7 @@ client.on('message', (channel, tags, message, self) => {
 	if(self) return;
 	let messageArray = message.split(" ");
 	if(messageArray[0].toLowerCase() === `${Config.syntax}info`) {
-		client.say(channel, `I´m here to withelist and manage ranks on our Minecraft Project. Use ${Config.syntax}helpMC to get all commands.`);
+		client.say(channel, `I´m here to withelist and manage ranks on our Minecraft Project. Use ${Config.syntax}mchelp to get all commands.`);
 	}
 	if(messageArray[0].toLowerCase() === `${Config.syntax}mchelp`) {
 		client.say(channel, `Commands are: ${Config.syntax}mclink ${Config.syntax}setmcrank ${Config.syntax}mcranks`);
